@@ -11,5 +11,5 @@ variable "project" {
 variable "tags" {
   type        = "map"
   default     = {}
-  description = "Additional tags (e.g. map(`BusinessUnit`,`XYZ`)"
+  description = "Additional tags  (e.g. map(`BusinessUnit`,`XYZ`)"
 }
