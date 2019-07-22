@@ -1,18 +1,18 @@
-module "trigger_vessel_producer" {
-  source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
-  name                       = "${var.prefix}-trigger-vessel-producer"
-  visibility_timeout_seconds = 900
-  message_retention_seconds  = 300
-  max_message_size           = 262144
-  receive_wait_time_seconds  = 10
-  redrive_policy             = "{\"deadLetterTargetArn\":\"${aws_sqs_queue.dlq_vessel_producer.arn}\",\"maxReceiveCount\":3}"
+#module "trigger_vessel_producer" {
+#  source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
+#  name                       = "${var.prefix}-trigger-vessel-producer"
+#  visibility_timeout_seconds = 900
+#  message_retention_seconds  = 300
+#  max_message_size           = 262144
+#  receive_wait_time_seconds  = 10
+#  redrive_policy             = "{\"deadLetterTargetArn\":\"${aws_sqs_queue.dlq_vessel_producer.arn}\",\"maxReceiveCount\":3}"
+#
+#  tags = "${var.tags}"
+#}
 
-  tags = "${var.tags}"
-}
-
-resource "aws_sqs_queue" "dlq_vessel_producer" {
-  name = "${var.prefix}-trigger-vessel-producer-dlq"
-}
+#resource "aws_sqs_queue" "dlq_vessel_producer" {
+#  name = "${var.prefix}-trigger-vessel-producer-dlq"
+#}
 
 module "trigger_shore_producer" {
   source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
