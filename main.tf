@@ -13,21 +13,21 @@ resource "aws_sqs_queue" "dlq_data_arrival_signaling" {
   name = "${var.prefix}-data-arrival-signaling-dlq"
 }
 
-#module "trigger_shore_producer" {
-#  source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
-#  name                       = "${var.prefix}-trigger-shore-producer"
-#  visibility_timeout_seconds = 900
-#  message_retention_seconds  = 300
-#  max_message_size           = 262144
-#  receive_wait_time_seconds  = 10
-#  redrive_policy             = "{\"deadLetterTargetArn\":\"${aws_sqs_queue.dlq_shore_producer.arn}\",\"maxReceiveCount\":3}"
-#
-#  tags = "${var.tags}"
-#}
-#
-#resource "aws_sqs_queue" "dlq_shore_producer" {
-#  name = "${var.prefix}-trigger-shore-producer-dlq"
-#}
+module "trigger_shore_producer" {
+  source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
+  name                       = "${var.prefix}-trigger-shore-producer"
+  visibility_timeout_seconds = 900
+  message_retention_seconds  = 300
+  max_message_size           = 262144
+  receive_wait_time_seconds  = 10
+  redrive_policy             = "{\"deadLetterTargetArn\":\"${aws_sqs_queue.dlq_shore_producer.arn}\",\"maxReceiveCount\":3}"
+
+  tags = "${var.tags}"
+}
+
+resource "aws_sqs_queue" "dlq_shore_producer" {
+  name = "${var.prefix}-trigger-shore-producer-dlq"
+}
 #
 #module "create_subscription_packages" {
 #  source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
