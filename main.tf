@@ -91,7 +91,7 @@ module "submit_optimization_job" {
 }
 
 resource "aws_sqs_queue" "dlq_submit_optimization_job" {
-  name = "${var.prefix}-submit-optimization-job"
+  name = "${var.prefix}-submit-optimization-job-dlq"
 }
 
 module "submit_validation_job" {
@@ -107,5 +107,5 @@ module "submit_validation_job" {
 }
 
 resource "aws_sqs_queue" "dlq_submit_validation_job" {
-  name = "${var.prefix}-submit-validation-job"
+  name = "${var.prefix}-submit-validation-job-dlq"
 }
