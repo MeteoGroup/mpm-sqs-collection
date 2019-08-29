@@ -78,4 +78,34 @@ resource "aws_sqs_queue" "dlq_data_load_post_signaling" {
   name = "${var.prefix}-data-load-post-signaling-dlq"
 }
 
+module "submit_optimization_job" {
+  source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
+  name                       = "${var.prefix}-submit-optimization-job"
+  visibility_timeout_seconds = 900
+  message_retention_seconds  = 300
+  max_message_size           = 262144
+  receive_wait_time_seconds  = 10
+  redrive_policy             = "{\"deadLetterTargetArn\":\"${aws_sqs_queue.dlq_submit_optimization_job.arn}\",\"maxReceiveCount\":3}"
 
+  tags = "${var.tags}"
+}
+
+resource "aws_sqs_queue" "dlq_submit_optimization_job" {
+  name = "${var.prefix}-submit-optimization-job"
+}
+
+module "submit_validation_job" {
+  source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
+  name                       = "${var.prefix}-submit-validation-job"
+  visibility_timeout_seconds = 900
+  message_retention_seconds  = 300
+  max_message_size           = 262144
+  receive_wait_time_seconds  = 10
+  redrive_policy             = "{\"deadLetterTargetArn\":\"${aws_sqs_queue.dlq_submit_validation_job.arn}\",\"maxReceiveCount\":3}"
+
+  tags = "${var.tags}"
+}
+
+resource "aws_sqs_queue" "dlq_submit_validation_job" {
+  name = "${var.prefix}-submit-validation-job"
+}
