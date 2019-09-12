@@ -1,5 +1,5 @@
 module "trigger_shore_producer" {
-  source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
+  source                     = "./modules/sqs"
   name                       = "${var.prefix}-trigger-shore-producer"
   visibility_timeout_seconds = 900
   message_retention_seconds  = 300
@@ -15,7 +15,7 @@ resource "aws_sqs_queue" "dlq_shore_producer" {
 }
 
 module "create_subscription_packages" {
-  source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
+  source                     = "./modules/sqs"
   name                       = "${var.prefix}-create-subscription-packages"
   visibility_timeout_seconds = 900
   message_retention_seconds  = 300
@@ -31,7 +31,7 @@ resource "aws_sqs_queue" "dlq_subscription_packages" {
 }
 
 module "vessel_package_emails" {
-  source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
+  source                     = "./modules/sqs"
   name                       = "${var.prefix}-vessel-package-emails"
   visibility_timeout_seconds = 900
   message_retention_seconds  = 300
@@ -47,7 +47,7 @@ resource "aws_sqs_queue" "dlq_package_emails" {
 }
 
 module "data_arrival_signaling" {
-  source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
+  source                     = "./modules/sqs"
   name                       = "${var.prefix}-data-arrival-signaling"
   visibility_timeout_seconds = 900
   message_retention_seconds  = 300
@@ -63,7 +63,7 @@ resource "aws_sqs_queue" "dlq_data_arrival_signaling" {
 }
 
 module "data_load_post_signaling" {
-  source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
+  source                     = "./modules/sqs"
   name                       = "${var.prefix}-data-load-post-signaling"
   visibility_timeout_seconds = 900
   message_retention_seconds  = 300
@@ -79,7 +79,7 @@ resource "aws_sqs_queue" "dlq_data_load_post_signaling" {
 }
 
 module "submit_optimization_job" {
-  source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
+  source                     = "./modules/sqs"
   name                       = "${var.prefix}-submit-optimization-job"
   visibility_timeout_seconds = 900
   message_retention_seconds  = 300
@@ -95,7 +95,7 @@ resource "aws_sqs_queue" "dlq_submit_optimization_job" {
 }
 
 module "submit_validation_job" {
-  source                     = "git::https://github.com/MeteoGroup/infra-modules-terraform.git//modules/sqs?ref=master"
+  source                     = "./modules/sqs"
   name                       = "${var.prefix}-submit-validation-job"
   visibility_timeout_seconds = 900
   message_retention_seconds  = 300
