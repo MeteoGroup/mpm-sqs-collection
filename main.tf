@@ -109,3 +109,19 @@ module "retro_netcdf_export_signaling" {
 resource "aws_sqs_queue" "dlq_retro_netcdf_export_signaling" {
   name = "${var.prefix}-retro-netcdf-export-signaling-dlq"
 }
+
+module "exclusive_job_trigger" {
+  source                     = "./modules/sqs"
+  name                       = "${var.prefix}-exclusive-job-trigger"
+  visibility_timeout_seconds = 900
+  message_retention_seconds  = 300
+  max_message_size           = 262144
+  receive_wait_time_seconds  = 10
+  redrive_policy             = "{\"deadLetterTargetArn\":\"${aws_sqs_queue.dlq_exclusive_job_trigger.arn}\",\"maxReceiveCount\":3}"
+
+  tags = "${var.tags}"
+}
+
+resource "aws_sqs_queue" "dlq_exclusive_job_trigger" {
+  name = "${var.prefix}-exclusive-job-trigger-dlq"
+}
